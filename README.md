@@ -76,7 +76,7 @@ yarn build
 
 - Используется в:
   - index.ts - чтобы загрузить товары при старте.
-  - `OrderForm` - чтобы отправить заказ.
+  - `OrderForm` - чтобы отправить заказ.\
     Это единственная точка доступа к серверу — принцип единственной ответственности.
 
 `Modal`
@@ -94,7 +94,7 @@ yarn build
 - Используется в:
   - `CardPreview` - чтобы показать детали товара.
   - `BasketModal` - чтобы открыть корзину.
-  - `OrderForm` - чтобы показать форму заказа.
+  - `OrderForm` - чтобы показать форму заказа.\
     Это компонент отображения, который можно повторно использовать — принцип изолированности.
 
 `CardCatalog`
@@ -107,7 +107,7 @@ yarn build
   - `render(product)` — заполняет шаблон #card-catalog данными товара (название, цена, изображение).
 
 - Используется в:
-  - index.ts - при загрузке товаров.
+  - index.ts - при загрузке товаров.\
     Он не знает, что будет при клике — это решает index.ts.
     Он просто превращает данные в визуальный элемент.
 
@@ -121,7 +121,7 @@ yarn build
   - `render(product)` — заполняет шаблон #card-preview (с описанием, категорией, кнопкой).
 
 - Используется в:
-  - index.ts - при клике на товар.
+  - index.ts - при клике на товар.\
     Он не знает логики, только заполняет шаблон.
 
 `BasketModal`
@@ -159,39 +159,55 @@ yarn build
 ## Типы данных
 
 - Основной товар
-  `export type IProduct = {\
-	id: string;\
-	title: string;\
-	category: string;\
-	image: string;\
-	price: number | null;\
-	description: string;\
-};`
+  ```
+  export type IProduct = {\
+  	id: string;\
+  	title: string;\
+  	category: string;\
+  	image: string;\
+  	price: number | null;\
+  	description: string;\
+  };
+  ```
+
+```
 
 - Товар в корзине
-  `export interface IProductInBasket {\
-	id: string;\
-	title: string;\
-	price: number;\
-}`
+```
+
+export interface IProductInBasket {\
+ id: string;\
+ title: string;\
+ price: number;\
+}
+
+```
 
 - Данные формы
-  `export interface IFormValues {\
-	email: string;\
-	phone: string;\
-	address: string;\
-	payment: string;\
-}`
+```
+
+export interface IFormValues {\
+ email: string;\
+ phone: string;\
+ address: string;\
+ payment: string;\
+}
+
+```
 
 - Основной заказ
-  `export interface IOrder {\
-	payment: string;\
-	address: string;\
-	email: string;\
-	phone: string;\
-	total: number;\
-	items: string[];\
-}`
+```
+
+export interface IOrder {\
+ payment: string;\
+ address: string;\
+ email: string;\
+ phone: string;\
+ total: number;\
+ items: string[];\
+}
+
+```
 
 ## Процессы и приложения
 
@@ -202,3 +218,5 @@ yarn build
 - Валидация — на каждом шаге формы.
 
 Архитектура соответствует MVP, легко масштабируется и готова к дальнейшему развитию.
+
+```
