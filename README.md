@@ -51,7 +51,7 @@ yarn build
 
 - Изолированности — каждый класс решает одну задачу и может использоваться независимо.
 - Единственной ответственности.
-- Масштабируемости — легко добавить новые экраны, типы карточек, модалки.
+- Масштабируемости — легко добавить новые экраны, типы карточек, модальные окна.
 
 Основные части системы:
 
@@ -64,7 +64,7 @@ yarn build
 
 `Api`
 
-- Назначение: Взаимодействие с сервером.
+- Назначение: Взаимодействие с сервером./
   Это модель данных, которая отвечает за обмен данными с API.
   Она не знает, как отображаются товары — она только загружает и отправляет данные.
 
@@ -81,8 +81,8 @@ yarn build
 
 `Modal`
 
-- Назначение: Управление модальными окнами.
-  Это универсальный компонент для модалок — он не знает, что внутри: детали товара, корзина или форма заказа.
+- Назначение: Управление модальными окнами./
+  Это универсальный компонент для модальных окон — он не знает, что внутри: детали товара, корзина или форма заказа.
   Он просто открывает, закрывает и вставляет контент.
 
 - Функции:
@@ -99,7 +99,7 @@ yarn build
 
 `CardCatalog`
 
-- Назначение: Рендер карточек товаров в галерее.
+- Назначение: Рендер карточек товаров в галерее./
   Отвечает за отображение списка товаров на главной странице.
 
 - Функции:
@@ -113,7 +113,7 @@ yarn build
 
 `CardPreview`
 
-- Назначение: Показ детальной информации о товаре.
+- Назначение: Показ детальной информации о товаре./
   Используется в модальном окне при клике на карточку.
 
 - Функции:
@@ -126,7 +126,7 @@ yarn build
 
 `BasketModal`
 
-- Назначение: Управление корзиной.
+- Назначение: Управление корзиной./
   Это модель и отображение:
 
 - Хранит список товаров `(items)`.
@@ -159,38 +159,38 @@ yarn build
 ## Типы данных
 
 - Основной товар
-  `export type IProduct = {
-	id: string;
-	title: string;
-	category: string;
-	image: string;
-	price: number | null;
-	description: string;
+  `export type IProduct = {/
+	id: string;/
+	title: string;/
+	category: string;/
+	image: string;/
+	price: number | null;/
+	description: string;/
 };`
 
 - Товар в корзине
-  `export interface IProductInBasket {
-	id: string;
-	title: string;
-	price: number;
+  `export interface IProductInBasket {/
+	id: string;/
+	title: string;/
+	price: number;/
 }`
 
 - Данные формы
-  `export interface IFormValues {
-	email: string;
-	phone: string;
-	address: string;
-	payment: string;
+  `export interface IFormValues {/
+	email: string;/
+	phone: string;/
+	address: string;/
+	payment: string;/
 }`
 
 - Основной заказ
-  `export interface IOrder {
-	payment: string;
-	address: string;
-	email: string;
-	phone: string;
-	total: number;
-	items: string[];
+  `export interface IOrder {/
+	payment: string;/
+	address: string;/
+	email: string;/
+	phone: string;/
+	total: number;/
+	items: string[];/
 }`
 
 ## Процессы и приложения
