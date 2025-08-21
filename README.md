@@ -161,47 +161,47 @@ yarn build
 - Основной товар
 
   ```
-  export type IProduct = {\
-  	id: string;\
-  	title: string;\
-  	category: string;\
-  	image: string;\
-  	price: number | null;\
-  	description: string;\
+  export type IProduct = {
+  	id: string;
+  	title: string;
+  	category: string;
+  	image: string;
+  	price: number | null;
+  	description: string;
   };
   ```
 
 - Товар в корзине
 
   ```
-  export interface IProductInBasket {\
-  id: string;\
-  title: string;\
-  price: number;\
+  export interface IProductInBasket {
+  id: string;
+  title: string;
+  price: number;
   };
   ```
 
 - Данные формы
 
   ```
-  export interface IFormValues {\
-  email: string;\
-  phone: string;\
-  address: string;\
-  payment: string;\
+  export interface IFormValues {
+  email: string;
+  phone: string;
+  address: string;
+  payment: string;
   };
   ```
 
 - Основной заказ
 
   ```
-  export interface IOrder {\
-  payment: string;\
-  address: string;\
-  email: string;\
-  phone: string;\
-  total: number;\
-  items: string[];\
+  export interface IOrder {
+  payment: string;
+  address: string;
+  email: string;
+  phone: string;
+  total: number;
+  items: string[];
   };
   ```
 
