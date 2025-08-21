@@ -159,6 +159,7 @@ yarn build
 ## Типы данных
 
 - Основной товар
+
   ```
   export type IProduct = {\
   	id: string;\
@@ -170,44 +171,39 @@ yarn build
   };
   ```
 
-```
-
 - Товар в корзине
-```
 
-export interface IProductInBasket {\
- id: string;\
- title: string;\
- price: number;\
-}
-
-```
+  ```
+  export interface IProductInBasket {\
+  id: string;\
+  title: string;\
+  price: number;\
+  };
+  ```
 
 - Данные формы
-```
 
-export interface IFormValues {\
- email: string;\
- phone: string;\
- address: string;\
- payment: string;\
-}
-
-```
+  ```
+  export interface IFormValues {\
+  email: string;\
+  phone: string;\
+  address: string;\
+  payment: string;\
+  };
+  ```
 
 - Основной заказ
-```
 
-export interface IOrder {\
- payment: string;\
- address: string;\
- email: string;\
- phone: string;\
- total: number;\
- items: string[];\
-}
-
-```
+  ```
+  export interface IOrder {\
+  payment: string;\
+  address: string;\
+  email: string;\
+  phone: string;\
+  total: number;\
+  items: string[];\
+  };
+  ```
 
 ## Процессы и приложения
 
@@ -218,5 +214,3 @@ export interface IOrder {\
 - Валидация — на каждом шаге формы.
 
 Архитектура соответствует MVP, легко масштабируется и готова к дальнейшему развитию.
-
-```
