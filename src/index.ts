@@ -8,7 +8,7 @@ import { Modal } from './components/Modal';
 import { CardPreview } from './components/CardPreview';
 import { BasketModel } from './components/BasketModel';
 import { BasketView } from './components/BasketView';
-import { OrderController } from './components/OrderForm';
+import { OrderController } from './components/OrderController';
 import { Page } from './components/Page';
 
 document.addEventListener('DOMContentLoaded', () => {
