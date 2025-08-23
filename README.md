@@ -74,9 +74,9 @@ yarn build
 Свойства
 |Свойство|Тип|Описание|
 |-|--------|---|
-|`gallery`|HTMLElement|Контейнер для товаров|
-|`basketButton`|HTMLElement|Кнопка открытия корзины|
-|`basketCounter`|HTMLElement|Элемент с количеством товаров в корзине|
+|`gallery`|`HTMLElement`|Контейнер для товаров|
+|`basketButton`|`HTMLElement`|Кнопка открытия корзины|
+|`basketCounter`|`HTMLElement`|Элемент с количеством товаров в корзине|
 
 Методы
 |Метод|Параметры|Возвращает|Описание|
