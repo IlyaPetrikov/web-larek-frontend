@@ -6,27 +6,29 @@ import { IProduct } from './types';
 import { IOrder } from './types';
 import { Modal } from './components/Modal';
 import { CardPreview } from './components/CardPreview';
-import { BasketModal } from './components/BasketModal';
-import { OrderForm } from './components/OrderForm';
+import { BasketModel } from './components/BasketModel';
+import { BasketView } from './components/BasketView';
+import { OrderController } from './components/OrderForm';
+import { Page } from './components/Page';
 
 document.addEventListener('DOMContentLoaded', () => {
-	const gallery = document.querySelector('.gallery');
-	if (!gallery) return console.error('Галерея не найдена');
+	const appContainer = document.body;
+	const page = new Page(appContainer);
 
 	const api = new Api(API_URL);
 	const modal = new Modal('modal-container');
 	const cardPreview = new CardPreview('card-preview');
-	const basketCounter = document.querySelector(
-		'.header__basket-counter'
-	) as HTMLElement;
-	let orderForm: OrderForm;
-	let basketModal = new BasketModal(modal, basketCounter, () => {
-		orderForm = new OrderForm(modal, handleOrderSubmit);
-		orderForm.render(basketModal.getTotal(), basketModal.getItems());
-	});
-	const basketButton = document.querySelector('.header__basket');
-	basketButton?.addEventListener('click', () => {
-		basketModal.open();
+
+	const basketModel = new BasketModel();
+	const basketView = new BasketView(modal, page);
+
+	function updateBasketView() {
+		basketView.render(basketModel.getItems());
+	}
+
+	page.setOnBasketClick(() => {
+		updateBasketView();
+		basketView.open();
 	});
 
 	api
@@ -36,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			response.items.forEach((product) => {
 				product.image = CDN_URL + '/' + product.image;
-				const cardElement = cardCatalog.render(product);
+				const cardElement = cardCatalog.renderCard(product);
 
 				cardElement.addEventListener('click', () => {
 					api
@@ -44,8 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
 						.then((detailedProduct: IProduct) => {
 							detailedProduct.image = CDN_URL + '/' + detailedProduct.image;
 
-							const inBasket = basketModal.hasItem(detailedProduct.id);
-							const fullCard = cardPreview.render(detailedProduct, inBasket);
+							const inBasket = basketModel.hasItem(detailedProduct.id);
+							const fullCard = cardPreview.renderCard(
+								detailedProduct,
+								inBasket
+							);
 							modal.render(fullCard);
 
 							const actionButton = modal
@@ -62,17 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
 									e.stopPropagation();
 									const id = detailedProduct.id;
 
-									if (basketModal.hasItem(id)) {
-										basketModal.removeItem(id);
-										newBtn.textContent = 'В корзину';
+									if (basketModel.hasItem(id)) {
+										basketModel.remove(id);
+										newBtn.textContent = 'Купить';
 									} else {
-										basketModal.add({
-											id,
+										basketModel.add({
+											id: detailedProduct.id,
 											title: detailedProduct.title,
 											price: detailedProduct.price ?? 0,
 										});
 										newBtn.textContent = 'Удалить из корзины';
 									}
+									updateBasketView();
 								});
 							}
 						})
@@ -81,34 +87,36 @@ document.addEventListener('DOMContentLoaded', () => {
 						});
 				});
 
-				gallery.appendChild(cardElement);
+				page.addCard(cardElement);
 			});
 		})
 		.catch((err) => {
 			console.error('Ошибка загрузки товаров:', err);
-			gallery.innerHTML = '<p>Не удалось загрузить товары</p>';
+			page.clearGallery();
+			const p = document.createElement('p');
+			p.textContent = 'Не удалось загрузить товары';
+			page.addCard(p);
 		});
 
 	function handleOrderSubmit(data: IOrder) {
 		api
 			.post('/order', data)
-			.then((result: { id: string }) => {
+			.then(() => {
 				const template = document.getElementById(
 					'success'
 				) as HTMLTemplateElement;
 				const clone = template.content.cloneNode(true) as DocumentFragment;
 				const success = clone.firstElementChild as HTMLElement;
 				const priceSpan = success.querySelector('#totalPrice');
-				if (priceSpan) {
-					priceSpan.textContent = data.total.toString();
-				}
+				if (priceSpan) priceSpan.textContent = data.total.toString();
 
 				const closeBtn = success.querySelector(
 					'.order-success__close'
 				) as HTMLButtonElement;
 				closeBtn.addEventListener('click', () => {
 					modal.close();
-					basketModal.clear();
+					basketModel.clear();
+					updateBasketView();
 				});
 
 				modal.render(success);
@@ -118,4 +126,18 @@ document.addEventListener('DOMContentLoaded', () => {
 				alert('Не удалось оформить заказ');
 			});
 	}
+
+	basketView.onSubmit = () => {
+		const orderController = new OrderController(modal);
+		orderController.start(
+			basketModel.getTotal(),
+			basketModel.getItems(),
+			handleOrderSubmit
+		);
+	};
+
+	basketView.onRemove = (id: string) => {
+		basketModel.remove(id);
+		updateBasketView();
+	};
 });

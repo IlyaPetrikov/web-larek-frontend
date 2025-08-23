@@ -7,6 +7,8 @@ export type IProduct = {
 	description: string;
 };
 
+export type CardField = 'title' | 'text' | 'price' | 'image' | 'category';
+
 export interface IProductInBasket {
 	id: string;
 	title: string;
@@ -26,4 +28,19 @@ export interface IOrder {
 	phone: string;
 	total: number;
 	items: string[];
+}
+
+export interface IContactsData {
+	email: string;
+	phone: string;
+}
+
+export interface IDeliveryData {
+	payment: string | null;
+	address: string;
+}
+
+export interface IValidationResult {
+	valid: boolean;
+	errors: string[];
 }

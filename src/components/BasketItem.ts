@@ -1,31 +1,28 @@
-export class BasketItem {
-	private template: HTMLTemplateElement;
+import { Card } from './Card';
+import { IProductInBasket } from '../types';
 
+export class BasketItem extends Card<IProductInBasket> {
 	constructor(templateId: string) {
-		this.template = document.getElementById(templateId) as HTMLTemplateElement;
+		super(templateId);
 	}
 
-	render(
-		product: { id: string; title: string; price: number },
+	renderItem(
+		item: IProductInBasket,
 		index: number,
 		onDelete: () => void
 	): HTMLElement {
-		const clone = this.template.content.cloneNode(true) as DocumentFragment;
-		const element = clone.firstElementChild as HTMLElement;
+		const element = this.createContainer();
+
+		this.setTitle(element, item.title);
+		this.setPrice(element, item.price);
 
 		const indexEl = element.querySelector('.basket__item-index');
-		const titleEl = element.querySelector('.card__title');
-		const priceEl = element.querySelector('.card__price');
-		const deleteBtn = element.querySelector(
-			'.basket__item-delete'
-		) as HTMLElement;
+		if (indexEl) {
+			indexEl.textContent = (index + 1).toString();
+		}
 
-		if (indexEl) indexEl.textContent = (index + 1).toString();
-		if (titleEl) titleEl.textContent = product.title;
-		if (priceEl) priceEl.textContent = `${product.price} синапсов`;
-		if (deleteBtn) deleteBtn.addEventListener('click', onDelete);
-
-		element.dataset.id = product.id;
+		const deleteBtn = element.querySelector('.basket__item-delete');
+		deleteBtn?.addEventListener('click', onDelete);
 
 		return element;
 	}
