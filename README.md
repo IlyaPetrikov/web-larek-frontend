@@ -259,7 +259,29 @@ yarn build
 | `validateContactInfo(email, phone)`  | `email`,`phone`        | `IValidationResult` | Комбинированная валидация |
 | `validateDelivery(payment, address)` | `payment`,`address`    | `IValidationResult` | Комбинированная валидация |
 
+`EventEmitter`
+
+Назначение: Является брокером событий.
+
+Код
+
+```
+export class EventEmitter implements IEvents {
+    _events: Map<EventName, Set<Subscriber>>;
+
+    constructor() {
+        this._events = new Map<EventName, Set<Subscriber>>();
+    }
+}
+```
+
+- `implements IEvents` — Гарантирует, что класс будет иметь нужные методы (`on`, `emit`).
+- `_events` — Хранит все подписки: событие → набор функций-обработчиков.
+- `Map<EventName, Set<Subscriber>>` — Ключ — имя события, значение — набор колбэков
+
 ## Типы данных
+
+- Товар из API
 
 ```
 export type IProduct = {
@@ -272,9 +294,13 @@ export type IProduct = {
 };
 ```
 
+- Поля, которые можно заполнить в карточке
+
 ```
 export type CardField = 'title' | 'text' | 'price' | 'image' | 'category';
 ```
+
+- Товар в корзине
 
 ```
 export interface IProductInBasket {
@@ -284,6 +310,8 @@ export interface IProductInBasket {
 }
 ```
 
+- Данные формы заказа
+
 ```
 export interface IFormValues {
 	email: string;
@@ -292,6 +320,8 @@ export interface IFormValues {
 	payment: string;
 }
 ```
+
+- Полный заказ, отправляемый на сервер
 
 ```
 export interface IOrder {
@@ -304,12 +334,16 @@ export interface IOrder {
 }
 ```
 
+- Данные формы контактов
+
 ```
 export interface IContactsData {
 	email: string;
 	phone: string;
 }
 ```
+
+- Данные формы доставки
 
 ```
 export interface IDeliveryData {
@@ -318,19 +352,13 @@ export interface IDeliveryData {
 }
 ```
 
+- Результат валидации полей
+
 ```
 export interface IValidationResult {
 	valid: boolean;
 	errors: string[];
 }
 ```
-
-## Процессы и приложения
-
-- События реализованы через колбэки и прямые вызовы.
-- Трансформация данных:
-  - `IProduct` → `IProductInBasket` (при добавлении в корзину),
-  - `IFormValues` + `BasketModal.getTotal()` → `IOrder` (при оформлении).
-- Валидация — на каждом шаге формы.
 
 Архитектура соответствует MVP, легко масштабируется и готова к дальнейшему развитию.
